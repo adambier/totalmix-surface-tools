@@ -254,7 +254,7 @@ and step names.
 2. **Type `03`.** What does the Roto-Control wait for in PLUGIN mode when the host claims Logic, and does SET PLUGIN CONTROL DETAILS work then?
 3. **The 0 dB indent.** Where exactly is the `02` indent (inferred 13003)? Do send knobs get one, with `01` and `02`, as the 3.1.0 release notes say? Does `03` get one?
 4. **The hold rule.** Does a power cycle clear it? Does anything other than a change of knob mode clear it, such as switching to PLUGIN mode and back? Is the release always about 3,300–3,700 counts in?
-5. **The FX label.** With SEL held, screen 3's bottom half shows "FX" under "Send 1" (seen); pressing that switch chooses the send knob mode (test 4). Is "FX" anything more than the label for that button? The SysEx doc names no FX switch mode.
+5. **The FX label.** With SEL held, screen 3's bottom half shows "FX" under "Send 1" (seen); pressing that switch chooses the send knob mode (test 4), and pressing it again steps through the sends (seen, 2026-10-30). Is "FX" anything more than the label for that button? The SysEx doc names no FX switch mode.
 
 ## 9. Tests
 
@@ -460,5 +460,8 @@ marked "seen".
   MIT), which is a quicker guide than the SysEx doc's table to which schemes to try. By it, the
   neutral greys are 13 (white), 27, 41, 55, and 69 (darkest), with 70 black; 49, used for
   TotalMix's grey, is a bluish grey. How each looks on the screens still has to be seen.
+- **Choosing a send** (2026-10-30, seen): with SEL held, pressing the switch under screen 3 (the
+  one labeled "FX") again and again steps through the sends; turning knob 3 with SEL held did not
+  change the send.
 - **White** (run 24, seen): side by side, 13, 27, 41, 55, 69, and 49; TotalMix's default white is
   drawn as 27 (light grey). Schemes 2 and 30 were no better than 73 for yellow.

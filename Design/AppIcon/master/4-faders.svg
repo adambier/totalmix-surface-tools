@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<defs>
+<linearGradient id="face" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf8f1"></stop><stop offset="1" stop-color="#d9d2c4"></stop></linearGradient>
+</defs>
+<g transform="matrix(1.15000 0 0 1.15000 -76.800 -76.800)"><g transform="translate(0 -50)">
+<g fill="#03060d" fill-opacity="0.45"><rect x="339.0" y="573" width="52" height="36" rx="9"></rect><rect x="399.0" y="555" width="52" height="36" rx="9"></rect><rect x="459.0" y="520" width="52" height="36" rx="9"></rect><rect x="519.0" y="424" width="52" height="36" rx="9"></rect><rect x="579.0" y="385" width="52" height="36" rx="9"></rect><rect x="674.0" y="447" width="52" height="36" rx="9"></rect><rect x="724.0" y="558" width="52" height="36" rx="9"></rect></g>
+<g fill="url(#face)"><rect x="339.0" y="565" width="52" height="36" rx="9"></rect><rect x="399.0" y="547" width="52" height="36" rx="9"></rect><rect x="459.0" y="512" width="52" height="36" rx="9"></rect><rect x="519.0" y="416" width="52" height="36" rx="9"></rect><rect x="579.0" y="377" width="52" height="36" rx="9"></rect><rect x="674.0" y="439" width="52" height="36" rx="9"></rect><rect x="724.0" y="550" width="52" height="36" rx="9"></rect></g>
+<g fill="#ffffff" fill-opacity="0.55"><rect x="345.0" y="570" width="40" height="9" rx="4.5"></rect><rect x="405.0" y="552" width="40" height="9" rx="4.5"></rect><rect x="465.0" y="517" width="40" height="9" rx="4.5"></rect><rect x="525.0" y="421" width="40" height="9" rx="4.5"></rect><rect x="585.0" y="382" width="40" height="9" rx="4.5"></rect><rect x="680.0" y="444" width="40" height="9" rx="4.5"></rect><rect x="730.0" y="555" width="40" height="9" rx="4.5"></rect></g>
+<g stroke="#5b5a57" stroke-width="5" stroke-linecap="round"><line x1="351.0" y1="588.4" x2="379.0" y2="588.4"></line><line x1="411.0" y1="570.4" x2="439.0" y2="570.4"></line><line x1="471.0" y1="535.4" x2="499.0" y2="535.4"></line><line x1="531.0" y1="439.4" x2="559.0" y2="439.4"></line><line x1="591.0" y1="400.4" x2="619.0" y2="400.4"></line><line x1="686.0" y1="462.4" x2="714.0" y2="462.4"></line><line x1="736.0" y1="573.4" x2="764.0" y2="573.4"></line></g>
+</g></g>
+</svg>

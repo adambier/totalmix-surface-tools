@@ -38,6 +38,7 @@ let usage = """
       sbdev curve <position 0…1 | gain, e.g. -6dB>
       sbdev curve --table
       sbdev roto ports
+      sbdev midi <port name>    prints what a MIDI device sends (e.g., an ARC USB's keys)
       sbdev roto [options]      (sbdev roto --help for the options)
       sbdev bridge [options]    (sbdev bridge --help for the options)
 
@@ -296,6 +297,7 @@ case "roundtrip": roundtrip(parseOptions(arguments.dropFirst()))
 case "curve": curve(Array(arguments.dropFirst()))
 case "roto": roto(arguments.dropFirst())
 case "bridge": bridge(arguments.dropFirst())
+case "midi": midiMonitor(arguments.dropFirst())
 case "-h", "--help", "help": print(usage); exit(0)
 default: fail("Unknown command \(command).\n\n\(usage)")
 }

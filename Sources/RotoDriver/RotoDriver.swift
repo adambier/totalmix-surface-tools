@@ -551,8 +551,7 @@ public struct RotoDriver: Sendable {
     }
 
     private func channel(at index: Int, hub: SurfaceHub) -> ChannelRef? {
-        let channels = hub.layout.channels(Self.view(trackSet), in: hub.mirror)
-        return channels.indices.contains(index) ? channels[index] : nil
+        hub.channel(at: index, of: Self.view(trackSet), on: id)
     }
 
     /// Keeps the page when only the knob or switch mode changed; starts at 0 on a new view.

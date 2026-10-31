@@ -45,6 +45,7 @@ let bridgeCommandHelp = """
       scheme               list the schemes for TotalMix's colors
       swatch S S ...       test: show color schemes S side by side on the first screens
       swatch done          draw the strips again
+      pbpage on | pbpage off   start the first playback on a new page, or not
       sendall              ask TotalMix for its state again
       status               the mode, the home submix, the send targets, and the strips
       quit
@@ -468,6 +469,15 @@ final class BridgeSession: @unchecked Sendable {
             }
             sendToRoto(driver.swatchBytes(schemes, hub: hub) + switchLights())
             log("Swatches on screens 1-\(min(schemes.count, 8)): schemes \(schemes.map(String.init).joined(separator: ", ")). `swatch done` to put the strips back.")
+        case "pbpage":
+            guard words.count == 2, words[1] == "on" || words[1] == "off" else {
+                print("pbpage on or pbpage off")
+                return true
+            }
+            var layout = hub.layout
+            layout.playbacksOnNewPage = words[1] == "on"
+            dispatch(hub.setLayout(layout, now: now))
+            log("Playbacks on a new page: \(words[1])")
         case "sendall":
             dispatch(hub.connect(now: now))
         case "status":

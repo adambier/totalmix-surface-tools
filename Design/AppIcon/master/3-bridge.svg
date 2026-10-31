@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<defs>
+
+</defs>
+<g transform="matrix(1.15000 0 0 1.15000 -76.800 -76.800)"><g transform="translate(0 -50)">
+<line x1="160" y1="620" x2="864" y2="620" stroke="#33466a" stroke-width="22.0" stroke-linecap="round"></line>
+<g stroke="#3d5276" stroke-width="14.0" stroke-linecap="round"><line x1="365" y1="553" x2="365" y2="605"></line><line x1="425" y1="509" x2="425" y2="605"></line><line x1="485" y1="454" x2="485" y2="605"></line><line x1="545" y1="386" x2="545" y2="605"></line><line x1="605" y1="307" x2="605" y2="605"></line><line x1="700" y1="397" x2="700" y2="605"></line><line x1="750" y1="512" x2="750" y2="605"></line></g>
+<g fill="none" stroke="#ffb13d" stroke-width="24.0" stroke-linecap="round"><path d="M 650 230 Q 410.0 605 170 605"></path><path d="M 650 230 Q 755.0 605 860 605"></path></g>
+<polygon points="638.0,205 662.0,205 674.0,612 626.0,612" fill="#ffb13d"></polygon>
+</g></g>
+</svg>

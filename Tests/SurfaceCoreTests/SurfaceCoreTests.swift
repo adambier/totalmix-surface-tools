@@ -468,4 +468,41 @@ final class ScaleAndTextTests: XCTestCase {
         XCTAssertTrue(Pickup.catches(target: 0.5, previous: 0.4, position: 0.6, window: 0.02))
         XCTAssertFalse(Pickup.catches(target: 0.5, previous: 0.6, position: 0.7, window: 0.02))
     }
+
+    func testPlaybacksOnANewPage() {
+        var mirror = MixerMirror()
+        for number in 0..<3 {
+            _ = mirror.apply(.channel(bus: .input, channel: number, parameter: "name", value: .text("In \(number + 1)")))
+        }
+        for number in 0..<2 {
+            _ = mirror.apply(.channel(bus: .playback, channel: number, parameter: "name", value: .text("PB \(number + 1)")))
+        }
+        var layout = PerformanceLayout()
+        XCTAssertEqual(layout.strips(.sources, in: mirror, pageSize: 2).count, 5, "off: no blanks")
+        layout.playbacksOnNewPage = true
+        let strips = layout.strips(.sources, in: mirror, pageSize: 2)
+        XCTAssertEqual(strips.count, 6)
+        XCTAssertNil(strips[3], "one blank fills the inputs' last page")
+        XCTAssertEqual(strips[4], ChannelRef(.playback, 0))
+        XCTAssertEqual(layout.strips(.sources, in: mirror, pageSize: 3).count, 5, "already on a page boundary")
+        XCTAssertEqual(layout.strips(.outputs, in: mirror, pageSize: 2), layout.channels(.outputs, in: mirror).map { $0 })
+
+        let saved = try! JSONEncoder().encode(layout)
+        XCTAssertEqual(try! JSONDecoder().decode(PerformanceLayout.self, from: saved), layout)
+        let old = try! JSONDecoder().decode(PerformanceLayout.self, from: Data("{\"hidden\":[]}".utf8))
+        XCTAssertFalse(old.playbacksOnNewPage)
+
+        var hub = SurfaceHub()
+        for event in [TotalMixEvent.channel(bus: .input, channel: 0, parameter: "name", value: .text("In 1")),
+                      .channel(bus: .playback, channel: 0, parameter: "name", value: .text("PB 1"))] {
+            _ = hub.handle(event, now: 0)
+        }
+        let id = SurfaceID("test")
+        _ = hub.addSurface(id, capabilities: SurfaceCapabilities(stripCount: 4, feel: .follows, hasSwitches: true,
+                                                                 hasMeters: false, jumpGuard: nil), now: 0)
+        _ = hub.setLayout(PerformanceLayout(playbacksOnNewPage: true), now: 0)
+        XCTAssertNil(hub.channel(at: 1, of: .sources, on: id))
+        XCTAssertEqual(hub.channel(at: 4, of: .sources, on: id), ChannelRef(.playback, 0))
+        XCTAssertEqual(hub.strips(of: id)?.compactMap { $0.info }.count, 1, "first page: the input, then blanks")
+    }
 }

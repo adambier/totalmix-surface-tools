@@ -282,6 +282,14 @@ public struct SurfaceHub: Sendable {
 
     // MARK: - Strips
 
+    /// The channel at a position of a view on a surface (as `SurfaceMode.strips` counts from
+    /// `first`), or `nil` for a blank strip, a position past the end, or an unknown surface.
+    public func channel(at position: Int, of view: ViewKind, on id: SurfaceID) -> ChannelRef? {
+        guard let state = surfaces[id] else { return nil }
+        let channels = layout.strips(view, in: mirror, pageSize: state.capabilities.stripCount)
+        return channels.indices.contains(position) ? channels[position] : nil
+    }
+
     /// What each of a surface's strips is bound to now, or `nil` for an unknown surface.
     public func strips(of id: SurfaceID) -> [StripBinding]? {
         guard let state = surfaces[id] else { return nil }
@@ -294,14 +302,13 @@ public struct SurfaceHub: Sendable {
         var slots: [StripBinding] = []
         switch state.mode {
         case .strips(let view, let first, let knob, let switchFunction):
-            let channels = layout.channels(view, in: mirror)
+            let channels = layout.strips(view, in: mirror, pageSize: caps.stripCount)
             for index in 0..<caps.stripCount {
                 let position = first + index
-                guard position >= 0, position < channels.count else {
+                guard position >= 0, position < channels.count, let ref = channels[position] else {
                     slots.append(StripBinding())
                     continue
                 }
-                let ref = channels[position]
                 let knobTarget = target(for: knob, ref, home: home)
                 let switchTarget = caps.hasSwitches ? target(for: switchFunction, ref, home: home) : nil
                 slots.append(binding(ref, knob: knobTarget, switch: switchTarget, meter: caps.hasMeters))

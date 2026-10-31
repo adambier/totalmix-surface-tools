@@ -31,16 +31,21 @@ public struct PerformanceLayout: Hashable, Codable, Sendable {
     public var outputOrder: [ChannelRef]
     /// Channels the performance leaves out, of either view.
     public var hidden: Set<ChannelRef>
+    /// Whether the first playback in the sources view starts a new page, with blank strips after
+    /// the inputs before it (Adam, 2026-10-30). Off by default.
+    public var playbacksOnNewPage: Bool
 
     /// A layout; the default shows every channel in TotalMix's order.
-    public init(sourceOrder: [ChannelRef] = [], outputOrder: [ChannelRef] = [], hidden: Set<ChannelRef> = []) {
+    public init(sourceOrder: [ChannelRef] = [], outputOrder: [ChannelRef] = [], hidden: Set<ChannelRef> = [],
+                playbacksOnNewPage: Bool = false) {
         self.sourceOrder = sourceOrder
         self.outputOrder = outputOrder
         self.hidden = hidden
+        self.playbacksOnNewPage = playbacksOnNewPage
     }
 
     private enum CodingKeys: String, CodingKey {
-        case sourceOrder, outputOrder, hidden
+        case sourceOrder, outputOrder, hidden, playbacksOnNewPage
     }
 
     /// Reads a saved layout; a missing field is empty, so layouts saved by older versions still load.
@@ -49,6 +54,20 @@ public struct PerformanceLayout: Hashable, Codable, Sendable {
         sourceOrder = try container.decodeIfPresent([ChannelRef].self, forKey: .sourceOrder) ?? []
         outputOrder = try container.decodeIfPresent([ChannelRef].self, forKey: .outputOrder) ?? []
         hidden = try container.decodeIfPresent(Set<ChannelRef>.self, forKey: .hidden) ?? []
+        playbacksOnNewPage = try container.decodeIfPresent(Bool.self, forKey: .playbacksOnNewPage) ?? false
+    }
+
+    /// The strips of a view on a surface with pages of `pageSize` strips: the view's channels, with
+    /// `nil` for a blank strip. Blank strips come only from `playbacksOnNewPage`: they fill the rest
+    /// of the page before the first playback in the sources view, when anything comes before it.
+    public func strips(_ view: ViewKind, in mirror: MixerMirror, pageSize: Int) -> [ChannelRef?] {
+        let channels: [ChannelRef?] = self.channels(view, in: mirror)
+        guard view == .sources, playbacksOnNewPage, pageSize > 1,
+              let first = channels.firstIndex(where: { $0?.bus == .playback }), first % pageSize != 0 else {
+            return channels
+        }
+        let blanks = pageSize - first % pageSize
+        return Array(channels[..<first]) + Array(repeating: nil, count: blanks) + Array(channels[first...])
     }
 
     /// The channels of a view, as the strips show them (see the type's description).
